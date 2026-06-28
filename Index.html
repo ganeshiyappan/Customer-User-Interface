@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BrightLink Networks — Support</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --cream: #FBF3E9;
+    --cream-dark: #F2E6D5;
+    --coral: #E8633C;
+    --coral-dark: #C94F2C;
+    --coral-light: #FBE2D8;
+    --teal: #2F6B5E;
+    --teal-light: #E1EFEA;
+    --charcoal: #332B26;
+    --charcoal-soft: #6B5F56;
+    --amber: #F2A65A;
+    --amber-light: #FCEEDC;
+    --white: #FFFFFF;
+    --radius: 16px;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Inter', sans-serif;
+    background: var(--cream);
+    color: var(--charcoal);
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 32px 16px;
+    background-image:
+      radial-gradient(circle at 10% 10%, var(--cream-dark) 0%, transparent 35%),
+      radial-gradient(circle at 90% 85%, var(--teal-light) 0%, transparent 40%);
+  }
+
+  .card {
+    width: 100%;
+    max-width: 560px;
+    background: var(--white);
+    border-radius: 24px;
+    padding: 40px 36px;
+    box-shadow: 0 2px 8px rgba(51, 43, 38, 0.06), 0 12px 32px rgba(51, 43, 38, 0.08);
+    position: relative;
+  }
+
+  .brand-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 28px;
+  }
+
+  .signal-mark {
+    width: 40px;
+    height: 32px;
+    display: flex;
+    align-items: flex-end;
+    gap: 4px;
+  }
+
+  .signal-mark .bar {
+    width: 7px;
+    border-radius: 4px;
+    background: var(--coral);
+    animation: pulse 1.8s ease-in-out infinite;
+  }
+
+  .signal-mark .bar:nth-child(1) { height: 10px; animation-delay: 0s; }
+  .signal-mark .bar:nth-child(2) { height: 18px; background: var(--teal); animation-delay: 0.2s; }
+  .signal-mark .bar:nth-child(3) { height: 26px; background: var(--amber); animation-delay: 0.4s; }
+  .signal-mark .bar:nth-child(4) { height: 32px; background: var(--coral); animation-delay: 0.6s; }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 0.45; transform: scaleY(0.85); }
+    50% { opacity: 1; transform: scaleY(1); }
+  }
+
+  .brand-name {
+    font-family: 'Quicksand', sans-serif;
+    font-weight: 700;
+    font-size: 20px;
+    color: var(--charcoal);
+    letter-spacing: -0.01em;
+  }
+
+  h1 {
+    font-family: 'Quicksand', sans-serif;
+    font-weight: 600;
+    font-size: 28px;
+    line-height: 1.25;
+    margin-bottom: 8px;
+    letter-spacing: -0.01em;
+  }
+
+  .subtitle {
+    font-size: 15px;
+    color: var(--charcoal-soft);
+    line-height: 1.6;
+    margin-bottom: 32px;
+  }
+
+  form { display: flex; flex-direction: column; gap: 18px; }
+
+  .field-row { display: flex; gap: 14px; }
+  .field-row .field { flex: 1; }
+
+  label {
+    display: block;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--charcoal);
+    margin-bottom: 6px;
+  }
+
+  input, textarea {
+    width: 100%;
+    font-family: 'Inter', sans-serif;
+    font-size: 15px;
+    padding: 12px 14px;
+    border: 1.5px solid var(--cream-dark);
+    border-radius: 12px;
+    background: var(--cream);
+    color: var(--charcoal);
+    transition: border-color 0.15s ease, background 0.15s ease;
+  }
+
+  input:focus, textarea:focus {
+    outline: none;
+    border-color: var(--coral);
+    background: var(--white);
+  }
+
+  textarea { resize: vertical; min-height: 96px; line-height: 1.5; }
+
+  ::placeholder { color: #A89B8E; }
+
+  .submit-btn {
+    margin-top: 8px;
+    background: var(--coral);
+    color: var(--white);
+    font-family: 'Quicksand', sans-serif;
+    font-weight: 600;
+    font-size: 16px;
+    border: none;
+    border-radius: 14px;
+    padding: 14px 0;
+    cursor: pointer;
+    transition: background 0.15s ease, transform 0.1s ease;
+  }
+
+  .submit-btn:hover { background: var(--coral-dark); }
+  .submit-btn:active { transform: scale(0.98); }
+  .submit-btn:disabled { background: #D9CCC0; cursor: not-allowed; }
+
+  .status-banner {
+    display: none;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 14px 16px;
+    border-radius: 12px;
+    font-size: 14px;
+    line-height: 1.55;
+    margin-top: 4px;
+  }
+
+  .status-banner.show { display: flex; }
+  .status-banner.thinking { background: var(--cream-dark); color: var(--charcoal-soft); }
+  .status-banner.answered { background: var(--teal-light); color: var(--teal); }
+  .status-banner.ticket { background: var(--amber-light); color: #8A5A1E; }
+  .status-banner.error { background: var(--coral-light); color: var(--coral-dark); }
+
+  .status-banner strong { display: block; color: inherit; font-weight: 600; margin-bottom: 2px; }
+
+  .ticket-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    margin-top: 8px;
+    font-weight: 600;
+    color: var(--coral);
+    text-decoration: none;
+  }
+
+  .mini-bars {
+    display: flex;
+    align-items: flex-end;
+    gap: 3px;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+
+  .mini-bars .b {
+    width: 4px;
+    border-radius: 2px;
+    background: currentColor;
+    opacity: 0.5;
+    animation: pulse 1.4s ease-in-out infinite;
+  }
+  .mini-bars .b:nth-child(1) { height: 6px; }
+  .mini-bars .b:nth-child(2) { height: 10px; animation-delay: 0.15s; }
+  .mini-bars .b:nth-child(3) { height: 14px; animation-delay: 0.3s; }
+
+  .config-note {
+    font-size: 12px;
+    color: #B0A296;
+    text-align: center;
+    margin-top: 20px;
+  }
+
+  @media (max-width: 480px) {
+    .card { padding: 28px 22px; }
+    .field-row { flex-direction: column; gap: 18px; }
+    h1 { font-size: 24px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="card">
+  <div class="brand-row">
+    <div class="signal-mark" aria-hidden="true">
+      <div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div>
+    </div>
+    <span class="brand-name">BrightLink Networks</span>
+  </div>
+
+  <h1>How can we help?</h1>
+  <p class="subtitle">Tell us what's going on and we'll get you sorted — either right away, or by looping in the right team.</p>
+
+  <form id="support-form">
+    <div class="field-row">
+      <div class="field">
+        <label for="name">Your name</label>
+        <input type="text" id="name" placeholder="Jordan Casey" required>
+      </div>
+      <div class="field">
+        <label for="email">Email</label>
+        <input type="email" id="email" placeholder="jordan@email.com" required>
+      </div>
+    </div>
+
+    <div class="field">
+      <label for="subject">Subject</label>
+      <input type="text" id="subject" placeholder="What's this about?" required>
+    </div>
+
+    <div class="field">
+      <label for="description">Tell us more</label>
+      <textarea id="description" placeholder="Describe what's happening — the more detail, the faster we can help." required></textarea>
+    </div>
+
+    <button type="submit" class="submit-btn" id="submit-btn">Send message</button>
+
+    <div class="status-banner" id="status-banner"></div>
+  </form>
+
+  <p class="config-note" id="config-note">Connected to support backend</p>
+</div>
+
+<script>
+  // ---- Set this to your ngrok (or Render) backend URL ----
+  const API_BASE_URL = "https://YOUR-NGROK-URL.ngrok-free.app";
+
+  const form = document.getElementById('support-form');
+  const submitBtn = document.getElementById('submit-btn');
+  const banner = document.getElementById('status-banner');
+
+  function showBanner(type, html) {
+    banner.className = 'status-banner show ' + type;
+    banner.innerHTML = html;
+  }
+
+  form.addEventListener('submit', async function (e) {
+    e.preventDefault();
+
+    const name = document.getElementById('name').value.trim();
+    const email = document.getElementById('email').value.trim();
+    const subject = document.getElementById('subject').value.trim();
+    const description = document.getElementById('description').value.trim();
+
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Sending...';
+
+    showBanner('thinking',
+      '<div class="mini-bars" aria-hidden="true"><div class="b"></div><div class="b"></div><div class="b"></div></div>' +
+      '<div><strong>Looking into it</strong>Checking our help docs for the fastest answer.</div>'
+    );
+
+    try {
+      const response = await fetch(API_BASE_URL + '/analyze', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name: name,
+          email: email,
+          subject: subject,
+          description: description
+        })
+      });
+
+      if (!response.ok) {
+        throw new Error('Request failed with status ' + response.status);
+      }
+
+      const data = await response.json();
+
+      if (data.faq_match) {
+        showBanner('answered',
+          '<div><strong>Here\'s your answer</strong>' + escapeHtml(data.answer) + '</div>'
+        );
+      } else {
+        const ticket = data.ticket || {};
+        const classification = data.classification || {};
+        showBanner('ticket',
+          '<div><strong>We\'ve logged this for our ' + escapeHtml(classification.team || 'support') + ' team</strong>' +
+          'This needs a closer look, so we\'ve created a ticket and someone will follow up by email.' +
+          (ticket.ticket_url ? '<a class="ticket-link" href="' + ticket.ticket_url + '" target="_blank" rel="noopener">View ticket ' + escapeHtml(ticket.ticket_key || '') + ' →</a>' : '') +
+          '</div>'
+        );
+      }
+
+      form.reset();
+
+    } catch (err) {
+      showBanner('error',
+        '<div><strong>Couldn\'t send that</strong>Check your connection and try again. (' + escapeHtml(err.message) + ')</div>'
+      );
+    } finally {
+      submitBtn.disabled = false;
+      submitBtn.textContent = 'Send message';
+    }
+  });
+
+  function escapeHtml(str) {
+    if (!str) return '';
+    const div = document.createElement('div');
+    div.textContent = str;
+    return div.innerHTML;
+  }
+</script>
+
+</body>
+</html>
