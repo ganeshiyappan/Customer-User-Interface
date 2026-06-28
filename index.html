@@ -316,15 +316,12 @@
           '<div><strong>Here\'s your answer</strong>' + escapeHtml(data.answer) + '</div>'
         );
       } else {
-        const ticket = data.ticket || {};
-        const classification = data.classification || {};
-        showBanner('ticket',
-          '<div><strong>We\'ve logged this for our ' + escapeHtml(classification.team || 'support') + ' team</strong>' +
-          'This needs a closer look, so we\'ve created a ticket and someone will follow up by email.' +
-          (ticket.ticket_url ? '<a class="ticket-link" href="' + ticket.ticket_url + '" target="_blank" rel="noopener">View ticket ' + escapeHtml(ticket.ticket_key || '') + ' →</a>' : '') +
-          '</div>'
-        );
-      }
+  showBanner('ticket',
+    '<div><strong>Ticket created</strong>' +
+    'We\'ve received your request and a ticket has been created. Our support team will follow up with you by email shortly.' +
+    '</div>'
+  );
+}
 
       form.reset();
 
