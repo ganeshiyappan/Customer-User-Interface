@@ -141,6 +141,28 @@
 
   ::placeholder { color: #A89B8E; }
 
+  input[type="file"] {
+    border: 1.5px dashed var(--cream-dark);
+    background: var(--cream);
+    padding: 10px 14px;
+    cursor: pointer;
+    font-size: 13px;
+    color: var(--charcoal-soft);
+  }
+
+  input[type="file"]::file-selector-button {
+    font-family: 'Quicksand', sans-serif;
+    font-weight: 600;
+    font-size: 13px;
+    background: var(--teal-light);
+    color: var(--teal);
+    border: none;
+    border-radius: 8px;
+    padding: 6px 12px;
+    margin-right: 10px;
+    cursor: pointer;
+  }
+
   .submit-btn {
     margin-top: 8px;
     background: var(--coral);
@@ -177,16 +199,6 @@
   .status-banner.error { background: var(--coral-light); color: var(--coral-dark); }
 
   .status-banner strong { display: block; color: inherit; font-weight: 600; margin-bottom: 2px; }
-
-  .ticket-link {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    margin-top: 8px;
-    font-weight: 600;
-    color: var(--coral);
-    text-decoration: none;
-  }
 
   .mini-bars {
     display: flex;
@@ -256,7 +268,12 @@
       <textarea id="description" placeholder="Describe what's happening — the more detail, the faster we can help." required></textarea>
     </div>
 
-    <button type="submit" class="submit-btn" id="submit-btn">Submit</button>
+    <div class="field">
+      <label for="image">Attach a screenshot (optional)</label>
+      <input type="file" id="image" accept="image/*">
+    </div>
+
+    <button type="submit" class="submit-btn" id="submit-btn">Send message</button>
 
     <div class="status-banner" id="status-banner"></div>
   </form>
@@ -266,7 +283,7 @@
 
 <script>
   // ---- Set this to your ngrok (or Render) backend URL ----
-  const API_BASE_URL = "https://musty-outweigh-thicket.ngrok-free.dev";
+  const API_BASE_URL = "https://YOUR-NGROK-URL.ngrok-free.app";
 
   const form = document.getElementById('support-form');
   const submitBtn = document.getElementById('submit-btn');
@@ -284,6 +301,7 @@
     const email = document.getElementById('email').value.trim();
     const subject = document.getElementById('subject').value.trim();
     const description = document.getElementById('description').value.trim();
+    const imageFile = document.getElementById('image').files[0];
 
     submitBtn.disabled = true;
     submitBtn.textContent = 'Sending...';
@@ -294,15 +312,19 @@
     );
 
     try {
+      const formData = new FormData();
+      formData.append('name', name);
+      formData.append('email', email);
+      formData.append('subject', subject);
+      formData.append('description', description);
+      if (imageFile) {
+        formData.append('image', imageFile);
+      }
+
       const response = await fetch(API_BASE_URL + '/analyze', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          name: name,
-          email: email,
-          subject: subject,
-          description: description
-        })
+        headers: { 'ngrok-skip-browser-warning': 'true' },
+        body: formData
       });
 
       if (!response.ok) {
@@ -316,12 +338,12 @@
           '<div><strong>Here\'s your answer</strong>' + escapeHtml(data.answer) + '</div>'
         );
       } else {
-  showBanner('ticket',
-    '<div><strong>Ticket created</strong>' +
-    'We\'ve received your request and a ticket has been created. Our support team will follow up with you by email shortly.' +
-    '</div>'
-  );
-}
+        showBanner('ticket',
+          '<div><strong>Ticket created</strong>' +
+          'We\'ve received your request and a ticket has been created. Our support team will follow up with you by email shortly.' +
+          '</div>'
+        );
+      }
 
       form.reset();
 
@@ -331,7 +353,7 @@
       );
     } finally {
       submitBtn.disabled = false;
-      submitBtn.textContent = 'Submit';
+      submitBtn.textContent = 'Send message';
     }
   });
 
